@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { signIn, signOut } from '../actions'
 
 const API_KEY = process.env.REACT_APP_MY_API_KEY
 
@@ -18,8 +20,12 @@ class GoogleAuth extends React.Component {
     })
   }
 
-  onAuthChange = () => {
-    this.setState({ isSignedIn: this.auth.isSignedIn.get() })
+  onAuthChange = (isSignedIn) => {
+    if (isSignedIn) {
+      this.props.signIn()
+    } else {
+      this.props.signOut()
+    }
   }
 
   onSignInClick = () => {
@@ -56,4 +62,4 @@ class GoogleAuth extends React.Component {
   }
 }
 
-export default GoogleAuth
+export default connect(null, { signIn, signOut })(GoogleAuth)
